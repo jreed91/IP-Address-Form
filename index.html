@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<form>
+	<div class="ip">
+                    <span class="formwrap no-margin">
+                        <input id="ip0" placeholder="255" onkeypress="return isNumber(event)" onkeyup="javascript:moveToNext(event,this,'','ip1', 12);" onkeydown="javascript:disableBackSpace(event,this,'');" class="ip-input" onpaste="javascript:pasteValues(this);"/>
+                    </span>
+                    <span class="decimal">.</span>
+                     <span class="formwrap no-margin">
+                        <input id="ip1" placeholder="255" name="ip1"  maxlength="3" onkeypress="return isNumber(event)" onkeyup="javascript:moveToNext(event,this,'ip1','ip2', 12);" onkeydown="javascript:disableBackSpace(event,this,'ip0');" class="ip-input"/>
+                    </span>
+                    <span class="decimal">.</span>
+                     <span class="formwrap no-margin">
+                        <input id="ip2" placeholder="255" name="ip2" maxlength="3" onkeypress="return isNumber(event)" onkeyup="javascript:moveToNext(event,this,'ip2','ip3', 12);" onkeydown="javascript:disableBackSpace(event,this,'ip1');" class="ip-input"/>
+                    </span>
+                    <span class="decimal">.</span>
+                     <span class="formwrap no-margin">
+                        <input id="ip3" placeholder="255" name="ip3" maxlength="3" onkeypress="return isNumber(event)" onkeyup="javascript:moveToNext(event,this,'','', 12);" onkeydown="javascript:disableBackSpace(event,this,'ip2');" class="ip-input"/>
+                    </span>
+            </div>
+</form>
+<script type="text/javascript" src="form-control.js"></script>
+</body>
+</html>
