@@ -2,7 +2,7 @@
     $.widget('ui.ipComplete', {
         options: {
            delimiter: '.',
-           octetLimit          : 4,   // Max number of tags allowed (null for unlimited).
+           octetLimit          : 7,   // Max number of tags allowed (null for unlimited).
             beforeOctetAdded      : null,
             afterOctetAdded       : null,
 
@@ -44,7 +44,6 @@
                 });
             this.ipInput
                 .keydown(function(event) {
-                    console.log(event.keyCode);
                     if (event.which == $.ui.keyCode.BACKSPACE && that.ipInput.val() === '') {
                         var octet = that._lastOctet();
                         // When backspace is pressed, the last octet is deleted.
@@ -144,9 +143,13 @@
             var octet = $('<li></li>')
                 .addClass('ip-choice ui-widget-content ui-state-default ui-corner-all')
                 .append(label);
-            
+            var decimal = $('<li></li>')
+                .addClass('ip-choice ui-widget-content ui-state-default ui-corner-all')
+                .append('<span class="ip-label">.</span>');
+
 
             octet.addClass('ip-choice-editable');
+            decimal.addClass('ip-choice-editable');
 
             
 
@@ -159,6 +162,11 @@
             }
 
             this.ipInput.parent().before(octet);
+
+             if (this.options.octetLimit && this._octets().length < this.options.octetLimit - 1) {
+                decimal.insertAfter(octet);
+            }
+
             this.ipInput.val('');
 
             this._trigger('afterOctetAdded', null, {
