@@ -24,7 +24,7 @@
                 this.ipList = this.element.find('ul, ol').andSelf().last();
             }
 
-            this.ipInput = $('<input type="text" />').addClass('ui-widget-content')
+            this.ipInput = $('<input type="number" />').addClass('ui-widget-content')
 
             this.ipList
                 .addClass('ip')
@@ -44,6 +44,7 @@
                 });
             this.ipInput
                 .keydown(function(event) {
+                    console.log(event.keyCode);
                     if (event.which == $.ui.keyCode.BACKSPACE && that.ipInput.val() === '') {
                         var octet = that._lastOctet();
                         // When backspace is pressed, the last octet is deleted.
@@ -60,6 +61,9 @@
                         case 110:
                           that.createOctet(that._cleanedInput());
                           break;
+                        case 86:
+                            console.log('paste');
+                            break;
                       }
                     });
         },
@@ -136,13 +140,15 @@
 
             var label = $(this.options.onOctetClicked ? '<a class="ip-label"</a>' : '<span class="ip-label"></span>').text(value);
 
+
             var octet = $('<li></li>')
                 .addClass('ip-choice ui-widget-content ui-state-default ui-corner-all')
                 .append(label);
-            var decimal = $('<li>.</li>');
+            
 
             octet.addClass('ip-choice-editable');
 
+            
 
             if (this._trigger('beforeOctetAdded', null, {
                 octet: octet,

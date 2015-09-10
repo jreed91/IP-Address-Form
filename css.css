@@ -51,7 +51,7 @@ ul.ip li.ip-choice input {
     float: left;
     margin: 2px 5px 2px 0;
 }
-ul.ip input[type="text"] {
+ul.ip input[type="number"] {
     -moz-box-sizing:    border-box;
     -webkit-box-sizing: border-box;
     box-sizing:         border-box;
@@ -66,4 +66,12 @@ ul.ip input[type="text"] {
     width: inherit;
     background-color: inherit;
     outline: none;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
 }
