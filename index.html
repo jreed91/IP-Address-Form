@@ -2,27 +2,22 @@
 <html>
 <head>
 	<title></title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="form-control.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="css.css"></link>
 </head>
 <body>
-<form>
-	<div class="ip">
-                    <span class="formwrap no-margin">
-                        <input id="ip0" placeholder="255" onkeypress="return isNumber(event)" onkeyup="javascript:moveToNext(event,this,'','ip1', 12);" onkeydown="javascript:disableBackSpace(event,this,'');" class="ip-input" onpaste="javascript:pasteValues(this);"/>
-                    </span>
-                    <span class="decimal">.</span>
-                     <span class="formwrap no-margin">
-                        <input id="ip1" placeholder="255" name="ip1"  maxlength="3" onkeypress="return isNumber(event)" onkeyup="javascript:moveToNext(event,this,'ip1','ip2', 12);" onkeydown="javascript:disableBackSpace(event,this,'ip0');" class="ip-input"/>
-                    </span>
-                    <span class="decimal">.</span>
-                     <span class="formwrap no-margin">
-                        <input id="ip2" placeholder="255" name="ip2" maxlength="3" onkeypress="return isNumber(event)" onkeyup="javascript:moveToNext(event,this,'ip2','ip3', 12);" onkeydown="javascript:disableBackSpace(event,this,'ip1');" class="ip-input"/>
-                    </span>
-                    <span class="decimal">.</span>
-                     <span class="formwrap no-margin">
-                        <input id="ip3" placeholder="255" name="ip3" maxlength="3" onkeypress="return isNumber(event)" onkeyup="javascript:moveToNext(event,this,'','', 12);" onkeydown="javascript:disableBackSpace(event,this,'ip2');" class="ip-input"/>
-                    </span>
-            </div>
-</form>
-<script type="text/javascript" src="form-control.js"></script>
+<div class="form2">
+<script type="text/javascript">
+       $(document).ready(function() {
+        $("#ip").ipComplete();
+    });
+</script>
+    <form>
+            <ul id="ip"></ul>
+            <input type="submit" value="Submit">
+    </form>
 </body>
 </html>
