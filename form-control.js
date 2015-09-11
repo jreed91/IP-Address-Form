@@ -122,7 +122,7 @@
 
         createOctetPasted: function(value, additionalClass, duringInitialization) {
             var that = this;
-            console.log(value);
+
             if (value === '') {
                 return false;
             }
