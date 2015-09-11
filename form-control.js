@@ -43,26 +43,23 @@
                     }
                 });
             this.ipInput
+                .bind("paste", function(event) {
+                    var pastedData = event.originalEvent.clipboardData.getData('text');
+                    that.createOctetPasted(pastedData);
+                })
                 .keydown(function(event) {
                     if (event.which == $.ui.keyCode.BACKSPACE && that.ipInput.val() === '') {
                         var octet = that._lastOctet();
                         // When backspace is pressed, the last octet is deleted.
                         that.removeOctet(octet);
                     }
-                    if (that.ipInput.val().length > 2) {
-                        that.createOctet(that._cleanedInput());
-                    }
                     switch( event.keyCode ) {
                         case $.ui.keyCode.PERIOD:
-                          console.log('period')
                           that.createOctet(that._cleanedInput());
                           break;
                         case 110:
                           that.createOctet(that._cleanedInput());
                           break;
-                        case 86:
-                            console.log('paste');
-                            break;
                       }
                     });
         },
@@ -112,7 +109,7 @@
 
          _cleanedInput: function() {
             // Returns the contents of the tag input, cleaned and ready to be passed to createTag
-            return $.trim(this.ipInput.val().replace('.', ''));
+            return $.trim(this.ipInput.val().replace(/^"(.*)"$/, '$1'));
         },
 
          _octets: function() {
@@ -121,6 +118,61 @@
 
         _lastOctet: function() {
             return this.ipList.find('.ip-choice:last:not(.removed)');
+        },
+
+        createOctetPasted: function(value, additionalClass, duringInitialization) {
+            var that = this;
+            console.log(value);
+            if (value === '') {
+                return false;
+            }
+            
+            var ip = value.match(/^([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$/);
+            
+            for (var i = 0; i < ip.length; i++) {
+                if (i == 0) {
+                    continue;
+                }
+                var label = $(this.options.onOctetClicked ? '<a class="ip-label"</a>' : '<span class="ip-label"></span>').text(ip[i]);
+
+
+                var octet = $('<li></li>')
+                    .addClass('ip-choice ui-widget-content ui-state-default ui-corner-all')
+                    .append(label);
+                var decimal = $('<li></li>')
+                    .addClass('ip-choice ui-widget-content ui-state-default ui-corner-all')
+                    .append('<span class="ip-label">.</span>');
+
+
+                octet.addClass('ip-choice-editable');
+                decimal.addClass('ip-choice-editable');
+
+                if (this._trigger('beforeOctetAdded', null, {
+                    octet: octet,
+                    octetLabel: this.octetLabel(octet),
+                    duringInitialization: duringInitialization
+                }) === false) {
+                    return;
+                }
+
+                this.ipInput.val('');
+                this.ipInput.parent().before(octet);
+
+                 if (this.options.octetLimit && this._octets().length < this.options.octetLimit - 1) {
+                    decimal.insertAfter(octet);
+                }
+
+                
+
+                this._trigger('afterOctetAdded', null, {
+                    octet: octet,
+                    octetLabel: this.octetLabel(octet),
+                    duringInitialization: duringInitialization
+                });
+
+            };
+
+           
         },
 
         createOctet: function(value, additionalClass, duringInitialization) {
@@ -161,13 +213,14 @@
                 return;
             }
 
+            this.ipInput.val('');
             this.ipInput.parent().before(octet);
 
              if (this.options.octetLimit && this._octets().length < this.options.octetLimit - 1) {
                 decimal.insertAfter(octet);
             }
 
-            this.ipInput.val('');
+            
 
             this._trigger('afterOctetAdded', null, {
                 octet: octet,
